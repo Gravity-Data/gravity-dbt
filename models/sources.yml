@@ -1,5 +1,8 @@
+version: 2
+
 sources:
   - name: raw
+    database: gravity-infra
     schema: gravity
     tables:
       - name: DE_Scheduler_Run_Log
