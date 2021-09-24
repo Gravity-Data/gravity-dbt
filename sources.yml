@@ -1,0 +1,6 @@
+sources:
+  - name: raw
+    schema: gravity
+    tables:
+      - name: DE_Scheduler_Run_Log
+        description: "Source of data for gravity runs."
