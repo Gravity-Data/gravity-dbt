@@ -1,0 +1,78 @@
+version: 2
+
+models:
+  - name: jobs
+    description: "details about each job"
+    columns:
+      - name: jobname
+        description: "?"
+      - name: sourcename
+        description: "?"
+      - name: resourceid
+        description: "?"      
+      - name: organisationid
+        description: "?"
+      - name: release_status
+        description: "?"
+      - name: schedule
+        description: "?"
+      - name: next_execution_time_utc
+        description: "?"
+      - name: datatarget_release_status
+        description: "?"
+      - name: datasource_release_status
+        description: "?"
+
+  - name: runs
+    description: "details about each run"
+    columns:
+      - name: jobname
+        description: "?"
+      - name: sourcename
+        description: "?"
+      - name: resourceid
+        description: "?"      
+      - name: run_id
+        description: "?"
+      - name: start_datetime
+        description: "?"
+      - name: end_datetime
+        description: "?"
+      - name: status
+        description: "?"
+      - name: error_message
+        description: "?"
+      - name: staged_records_count
+        description: "?"
+      - name: new_records_count
+        description: "?"
+      - name: updated_records_count
+        description: "?"
+      - name: organisationid
+        description: "?"
+
+  - name: sources
+    description: "details about each source"
+    columns:
+      - name: jobname
+        description: "?"
+      - name: sourcename
+        description: "?"
+      - name: organisationid
+        description: "?"      
+      - name: value
+        description: "?"
+
+  - name: targets
+    description: "details about each target"
+    columns:
+      - name: connectionname
+        description: "?"
+      - name: targetname
+        description: "?"
+      - name: organisationid
+        description: "?"
+      - name: parameter
+        description: "?"    
+      - name: value
+        description: "?"
