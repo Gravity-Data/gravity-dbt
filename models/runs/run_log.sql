@@ -1,5 +1,4 @@
-{{ config(materialized='view',
-          schema='runs') }}
+{{ config(materialized='view') }}
 
 select *
 from {{ source('raw', 'DE_Scheduler_Run_Log') }}

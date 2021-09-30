@@ -36,3 +36,9 @@ models:
     runs:
       +tags: runs
       +schema: runs
+    jobs:
+      +tags: jobs
+      +schema: jobs
+    sources:
+      +tags: sources
+      +schema: sources
