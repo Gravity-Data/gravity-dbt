@@ -42,3 +42,6 @@ models:
     sources:
       +tags: sources
       +schema: sources
+    targets:
+      +tags: targets
+      +schema: targets
