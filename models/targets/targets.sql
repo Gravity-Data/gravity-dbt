@@ -1,4 +1,4 @@
-{{ config(materialized='ephemeral') }}
+{{ config(materialized='view') }}
 
 select 
 distinct connectionname, targetname, organisationid,parameter,value

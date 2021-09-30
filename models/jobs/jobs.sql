@@ -39,12 +39,12 @@ left join
     and  RS.resourceid=TGT_DB_CONNECTION_NAME.resourceid 
     and  RS.organisationid=TGT_DB_CONNECTION_NAME.organisationid   
 left join  
-{{ref('datatargets')}} DT 
+{{ref('targets')}} DT 
     on TGT_DB_CONNECTION_NAME.value=DT.connectionname 
     and  TGT_DATASOURCE.value=DT.targetname   
     and  RS.organisationid=DT.organisationid 
 left join  
-{{ref('datasources')}} DS 
+{{ref('sources')}} DS 
     on RS.jobname=DS.jobname 
     and  RS.sourcename=DS.sourcename 
     and  RS.organisationid=DS.organisationid 
