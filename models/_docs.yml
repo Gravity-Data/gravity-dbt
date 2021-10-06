@@ -23,7 +23,7 @@ models:
       - name: datasource_release_status
         description: "The release status of the associated source. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
           
-  - name: runs
+  - name: run_log
     description: "details about each run"
     columns:
       - name: jobname
