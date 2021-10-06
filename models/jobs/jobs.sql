@@ -5,14 +5,14 @@ select distinct
     RS.sourcename,
     RS.resourceid, 
     RS.organisationid, 
-    case    when (DT.value is null or DS.value is null  or  DT.value ='draft'  or DS.value ='draft') 
+    case    when (DT.release_status is null or DS.release_status is null  or  DT.release_status ='draft'  or DS.release_status ='draft') 
                 and SIA.value is not null   then 'incomplete' 
             when SIA.value is null then 'paused' 
             else RS.value   end as release_status,  
     SIA.value as schedule,
     NET.value as next_execution_time_utc, 
-    DT.value as datatarget_release_status, 
-    DS.value as datasource_release_status  
+    DT.release_status as datatarget_release_status, 
+    DS.release_status as datasource_release_status  
 from 
 {{ref('release_status')}} RS 
 left join 
