@@ -3,76 +3,114 @@ version: 2
 models:
   - name: jobs
     description: "details about each job"
+    composite_key:
+      - jobname
+      - sourcename
+      - resourceid
+      - organisationid
     columns:
       - name: jobname
-        description: "?"
+        description: "Name of the source connection associated with the job."
       - name: sourcename
-        description: "?"
+        description: "Name of the source connection type of the job."
       - name: resourceid
-        description: "?"      
+        description: "Name of the job."      
       - name: organisationid
-        description: "?"
+        description: "ID of the organisationid associated with the job. Note that multiple users can be a members of one organisation."
       - name: release_status
-        description: "?"
+        description: "Represents the status of the job setup and scheduling. Inactive jobs are associated with accounts that are not active (i.e. they have not paid their subsciption). Incomplete jobs have an associated source or target that is not published. Paused jobs have been manually paused by a developer. There is currently no 'draft' status for jobs."
+        enum_values:
+          - inactive_organisation
+          - published
+          - incomplete
+          - paused
       - name: schedule
-        description: "?"
+        description: "cron expression for the run schedule of the job. Can be NULL/BLANK for incomplete jobs."
       - name: next_execution_time_utc
-        description: "?"
+        description: "When will the job be executed next in the UTC timezone. Jobs may have a 'next_execution_time' which is in the past if they are inactive. The next_execution_time will be re-calculated when they are re-enabled. Will be NULL/BLANK until the job is executed for the first time."
       - name: datatarget_release_status
-        description: "?"
+        description: "The release status of the associated target. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
+        enum_values:
+          - inactive_organisation
+          - published
+          - draft
       - name: datasource_release_status
-        description: "?"
-
+        description: "The release status of the associated source. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
+        enum_values:
+          - inactive_organisation
+          - published
+          - draft
+          
   - name: runs
     description: "details about each run"
+    composite_key:
+      - run_id
     columns:
       - name: jobname
-        description: "?"
+        description: "Name of the source connection associated with the job execution."
       - name: sourcename
-        description: "?"
+        description: "Name of the source connection type of the job execution. (e.g. Facebook, PostgreSQL etc.)"
       - name: resourceid
-        description: "?"      
+        description: "Name of the job executed."       
       - name: run_id
-        description: "?"
+        description: "unique id for the run. Each job will have separate run id associated with each execution."
       - name: start_datetime
-        description: "?"
+        description: "start time of the job execution in UTC."
       - name: end_datetime
-        description: "?"
+        description: "end time of the job execution in UTC."
       - name: status
-        description: "?"
+        description: "Completion status of the job execution."
+        enum_values:
+          - FINISHED_OK
+          - ERROR
+          - ABORTED
       - name: error_message
-        description: "?"
+        description: "Error message associated with job executions when the status is equal to ERROR or ABORTED"
       - name: staged_records_count
-        description: "?"
+        description: "Count of records loaded to the target staging table (staging table is an empty copy of the target table). "
       - name: new_records_count
-        description: "?"
+        description: "Count of new records loaded to the target table. Records are considered 'new' if they do not already exist in the target table based on the composite key provided."
       - name: updated_records_count
-        description: "?"
+        description:  "Count of updated records loaded to the target table. Records are considered 'updated' if they already exist in the target table based on the composite key provided. These records are updated with the lastest values. Only applicable for data warehouse targets."
       - name: organisationid
-        description: "?"
+        description: "ID of the organisationid associated with the job execution. Note that multiple users can be a members of one organisation."
 
   - name: sources
     description: "details about each source"
+    composite_key:
+      - jobname
+      - sourcename
+      - organisationid
     columns:
       - name: jobname
-        description: "?"
+        description: "Name of the source connection."
       - name: sourcename
-        description: "?"
+        description: "Name of the connection source type. (e.g. Facebook, PostgreSQL etc.)."
       - name: organisationid
-        description: "?"      
-      - name: value
-        description: "?"
+        description: "ID of the organisationid associated with the source connection. Note that multiple users can be a members of one organisation."
+      - name: release_status
+        description: "The release status of the source. This is important because jobs will only run if the target, source and job are ALL published."
+        enum_values:
+          - inactive_organisation
+          - published
+          - draft
 
   - name: targets
     description: "details about each target"
+    composite_key:
+      - connectionname
+      - targetname
+      - organisationid
     columns:
       - name: connectionname
-        description: "?"
+        description: "Name of the target connection."
       - name: targetname
-        description: "?"
+        description: "Name of the target type. (e.g. Snowflake, S3 etc.)."
       - name: organisationid
-        description: "?"
-      - name: parameter
-        description: "?"    
-      - name: value
-        description: "?"
+        description: "ID of the organisationid associated with the target connection. Note that multiple users can be a members of one organisation."  
+      - name: release_status
+        description: "The release status of the target. This is important because jobs will only run if the target, source and job are ALL published."
+        enum_values:
+          - inactive_organisation
+          - published
+          - draft
