@@ -2,6 +2,10 @@ version: 2
 
 models:
   - name: jobs
+    meta:
+      joins:
+        - join: sources
+          sql_on: ${sources.sourcename} = ${jobs.sourcename}
     description: "details about each job"
     columns:
       - name: jobname
@@ -9,14 +13,29 @@ models:
       - name: sourcename
         description: "Name of the source connection type of the job."
       - name: resourceid
+        meta:
+          metrics:
+            count_distinct_jobs:
+              type: count_distinct
+            count_jobs:
+              type: count
         description: "Name of the job."      
       - name: organisationid
+        meta:
+          metrics:
+            count_distinct_orgs:
+              type: count_distinct
         description: "ID of the organisationid associated with the job. Note that multiple users can be a members of one organisation."
       - name: release_status
         description: "Represents the status of the job setup and scheduling. Inactive jobs are associated with accounts that are not active (i.e. they have not paid their subsciption). Incomplete jobs have an associated source or target that is not published. Paused jobs have been manually paused by a developer. There is currently no 'draft' status for jobs."
       - name: schedule
         description: "cron expression for the run schedule of the job. Can be NULL/BLANK for incomplete jobs."
       - name: next_execution_time_utc
+        metrics:
+          next_job_execution_time_utc:
+            description: min of next execution time to be used at org level for example
+            type: date
+            sql: "MIN(${next_job_execution_time_utc})"
         description: "When will the job be executed next in the UTC timezone. Jobs may have a 'next_execution_time' which is in the past if they are inactive. The next_execution_time will be re-calculated when they are re-enabled. Will be NULL/BLANK until the job is executed for the first time."
       - name: datatarget_release_status
         description: "The release status of the associated target. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
@@ -24,6 +43,12 @@ models:
         description: "The release status of the associated source. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
           
   - name: run_log
+    meta:
+      joins:
+        - join: sources
+          sql_on: ${sources.sourcename} = ${runs.sourcename}
+        - join: jobs
+          sql_on: ${jobs.jobname} = ${run_log.jobname}    
     description: "details about each run"
     columns:
       - name: jobname
@@ -33,6 +58,11 @@ models:
       - name: resourceid
         description: "Name of the job executed."       
       - name: run_id
+        meta:
+          metrics:
+            count_runs:
+              description: basic count of runs by counting run_id
+              type: count
         description: "unique id for the run. Each job will have separate run id associated with each execution."
       - name: start_datetime
         description: "start time of the job execution in UTC."
