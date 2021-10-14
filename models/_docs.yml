@@ -68,6 +68,16 @@ models:
         description: "start time of the job execution in UTC."
       - name: end_datetime
         description: "end time of the job execution in UTC."
+      - name: duration_sec
+        meta:
+          metrics:
+            avg_duration:
+              description: average duration of jobs executed in seconds
+              type: average
+            total_duration:
+              description: total duration of jobs executed in seconds
+              type: sum
+        description: "duration of the job execution in seconds"
       - name: status
         description: "Completion status of the job execution."
       - name: error_message
