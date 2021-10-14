@@ -11,6 +11,7 @@ select distinct
             else RS.value   end as release_status,  
     SIA.value as schedule,
     NET.value as next_execution_time_utc, 
+    datetime_diff(safe_cast(NET.value as timestamp), current_timestamp(), hour) time_to_next_execution_hours,
     DT.release_status as datatarget_release_status, 
     DS.release_status as datasource_release_status  
 from 
