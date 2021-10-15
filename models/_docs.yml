@@ -65,7 +65,7 @@ models:
     meta:
       joins:
         - join: sources
-          sql_on: ${sources.source_id} = ${runs.source_id}
+          sql_on: ${sources.source_id} = ${run_log.source_id}
         - join: jobs
           sql_on: ${jobs.job_id} = ${run_log.job_id}    
     description: "details about each run"
