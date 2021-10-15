@@ -1,6 +1,8 @@
 {{ config(materialized='view') }}
 
-select distinct 
+select distinct
+    {{ dbt_utils.surrogate_key(['RS.jobname', 'RS.sourcename','RS.organisationid', 'RS.resourceid']) }} as job_id,
+    {{ dbt_utils.surrogate_key(['RS.jobname', 'RS.sourcename','RS.organisationid']) }} as source_id,
     RS.jobname, 
     RS.sourcename,
     RS.resourceid, 

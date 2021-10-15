@@ -5,6 +5,8 @@ select
       sourcename,
       resourceid,
       run_id,
+      {{ dbt_utils.surrogate_key(['jobname', 'sourcename','organisationid', 'resourceid']) }} as job_id,
+      {{ dbt_utils.surrogate_key(['jobname', 'sourcename','organisationid']) }} as source_id,
       start_datetime,
       end_datetime,
       datetime_diff(end_datetime, start_datetime, second) duration_sec,

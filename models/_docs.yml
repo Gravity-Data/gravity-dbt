@@ -5,20 +5,24 @@ models:
     meta:
       joins:
         - join: sources
-          sql_on: ${sources.sourcename} = ${jobs.sourcename}
+          sql_on: ${sources.source_id} = ${jobs.source_id}
     description: "details about each job"
     columns:
-      - name: jobname
-        description: "Name of the source connection associated with the job."
-      - name: sourcename
-        description: "Name of the source connection type of the job."
-      - name: resourceid
+      - name: job_id
         meta:
           metrics:
             count_distinct_jobs:
               type: count_distinct
             count_jobs:
               type: count
+        description: "surrogate primary key for table"
+      - name: source_id
+        description: "fkey from sources, surrogate key created there"
+      - name: jobname
+        description: "Name of the source connection associated with the job."
+      - name: sourcename
+        description: "Name of the source connection type of the job."
+      - name: resourceid
         description: "Name of the job."      
       - name: organisationid
         meta:
@@ -53,9 +57,9 @@ models:
     meta:
       joins:
         - join: sources
-          sql_on: ${sources.sourcename} = ${runs.sourcename}
+          sql_on: ${sources.source_id} = ${runs.source_id}
         - join: jobs
-          sql_on: ${jobs.jobname} = ${run_log.jobname}    
+          sql_on: ${jobs.job_id} = ${run_log.job_id}    
     description: "details about each run"
     columns:
       - name: jobname
@@ -71,6 +75,10 @@ models:
               description: basic count of runs by counting run_id
               type: count
         description: "unique id for the run. Each job will have separate run id associated with each execution."
+      - name: job_id      
+        description: "fkey from jobs, surrogate key created there"
+      - name: source_id
+        description: "fkey from sources, surrogate key created there"
       - name: start_datetime
         description: "start time of the job execution in UTC."
       - name: end_datetime
@@ -101,6 +109,8 @@ models:
   - name: sources
     description: "details about each source"
     columns:
+      - name: source_id
+        description: "generated surrogate key"
       - name: jobname
         description: "Name of the source connection."
       - name: sourcename
