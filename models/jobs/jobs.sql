@@ -48,7 +48,5 @@ left join
     and  RS.organisationid=DT.organisationid 
 left join  
 {{ref('sources')}} DS 
-    on RS.jobname=DS.jobname 
-    and  RS.sourcename=DS.sourcename 
-    and  RS.organisationid=DS.organisationid 
+    on {{ dbt_utils.surrogate_key(['RS.jobname', 'RS.sourcename','RS.organisationid']) }} = DS.source_id
           
