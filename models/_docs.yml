@@ -6,6 +6,8 @@ models:
       joins:
         - join: sources
           sql_on: ${sources.source_id} = ${jobs.source_id}
+        - join: targets
+          sql_on: ${targets.target_id} = ${jobs.target_id}
     description: "details about each job"
     columns:
       - name: job_id
@@ -18,6 +20,8 @@ models:
         description: "surrogate primary key for table"
       - name: source_id
         description: "fkey from sources, surrogate key created there"
+      - name: target_id
+        description: "fkey from targets, surrogate key created there"
       - name: jobname
         description: "Name of the source connection associated with the job."
       - name: sourcename
@@ -52,6 +56,10 @@ models:
         description: "The release status of the associated target. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
       - name: datasource_release_status
         description: "The release status of the associated source. This is important because jobs will only run if the target, source and job are ALL published. Can be NULL/BLANK for incomplete jobs."
+      - name: targetname
+        description: "target name of the target"
+      - name: connectionname
+        description: "connection name of the target"
           
   - name: run_log
     meta:
@@ -110,6 +118,12 @@ models:
     description: "details about each source"
     columns:
       - name: source_id
+        meta:
+          metrics:
+            count_distinct_sources:
+              type: count_distinct
+            count_sources:
+              type: count
         description: "generated surrogate key"
       - name: jobname
         description: "Name of the source connection."
@@ -123,6 +137,14 @@ models:
   - name: targets
     description: "details about each target"
     columns:
+      - name: target_id
+        meta:
+          metrics:
+            count_distinct_targets:
+              type: count_distinct
+            count_targets:
+              type: count
+        description: "generated surrogate key"
       - name: connectionname
         description: "Name of the target connection."
       - name: targetname

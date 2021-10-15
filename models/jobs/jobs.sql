@@ -3,6 +3,7 @@
 select distinct
     {{ dbt_utils.surrogate_key(['RS.jobname', 'RS.sourcename','RS.organisationid', 'RS.resourceid']) }} as job_id,
     {{ dbt_utils.surrogate_key(['RS.jobname', 'RS.sourcename','RS.organisationid']) }} as source_id,
+    {{ dbt_utils.surrogate_key(['TGT_DB_CONNECTION_NAME.value', 'TGT_DATASOURCE.value','RS.organisationid']) }} as target_id,
     RS.jobname, 
     RS.sourcename,
     RS.resourceid, 
@@ -15,7 +16,9 @@ select distinct
     NET.value as next_execution_time_utc, 
     datetime_diff(safe_cast(NET.value as timestamp), current_timestamp(), hour) time_to_next_execution_hours,
     DT.release_status as datatarget_release_status, 
-    DS.release_status as datasource_release_status  
+    DS.release_status as datasource_release_status,
+    TGT_DATASOURCE.value as targetname,
+    TGT_DB_CONNECTION_NAME.value as connectionname 
 from 
 {{ref('release_status')}} RS 
 left join 
@@ -43,9 +46,7 @@ left join
     and  RS.organisationid=TGT_DB_CONNECTION_NAME.organisationid   
 left join  
 {{ref('targets')}} DT 
-    on TGT_DB_CONNECTION_NAME.value=DT.connectionname 
-    and  TGT_DATASOURCE.value=DT.targetname   
-    and  RS.organisationid=DT.organisationid 
+    on {{ dbt_utils.surrogate_key(['TGT_DB_CONNECTION_NAME.value', 'TGT_DATASOURCE.value','RS.organisationid']) }} = DT.target_id
 left join  
 {{ref('sources')}} DS 
     on {{ dbt_utils.surrogate_key(['RS.jobname', 'RS.sourcename','RS.organisationid']) }} = DS.source_id
