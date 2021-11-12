@@ -10,3 +10,11 @@ sources:
       - name: truedash_conf_resources
       - name: truedash_conf_datatargets
       - name: truedash_conf_datasources
+      - name: Orgs
+        description: "details about organisations"
+      - name: MongoStripe
+        description: "stripe data about subscriptions"
+      - name: Users
+        description: "details about users"
+      - name: UsersLoginHistory
+        description: "details about user login events"
