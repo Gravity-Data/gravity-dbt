@@ -250,7 +250,7 @@ models:
     meta:
       joins:
         - join: stripe
-          sql_on: ${orgs._id} = ${stripe.organisation_id}
+          sql_on: ${orgs._id} = ${stripe.organisationid}
     description: "details about each org"
     columns:
       - name: _id
