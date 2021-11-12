@@ -167,6 +167,10 @@ models:
         description: "The release status of the target. This is important because jobs will only run if the target, source and job are ALL published."
 
   - name: users
+    meta:
+      joins:
+        - join: orgs
+          sql_on: ${orgs._id} = ${users.organisationid}  
     description: "details about each user"
     columns:
       - name: _id
