@@ -229,6 +229,8 @@ models:
       joins:
         - join: users
           sql_on: ${users._id} = ${users_login_history.userId}
+        - join: orgs
+          sql_on: ${orgs._id} = ${users.organisationid}
     description: "details about each user login"
     columns:
       - name: _id
@@ -248,7 +250,7 @@ models:
     meta:
       joins:
         - join: stripe
-          sql_on: ${users._id} = ${stripe.organisation_id}
+          sql_on: ${orgs._id} = ${stripe.organisation_id}
     description: "details about each org"
     columns:
       - name: _id
