@@ -8,6 +8,8 @@ models:
           sql_on: ${sources.source_id} = ${jobs.source_id}
         - join: targets
           sql_on: ${targets.target_id} = ${jobs.target_id}
+        - join: orgs
+          sql_on: ${orgs._id} = ${jobs.organisationid}
     description: "details about each job"
     columns:
       - name: job_id
@@ -67,7 +69,9 @@ models:
         - join: sources
           sql_on: ${sources.source_id} = ${run_log.source_id}
         - join: jobs
-          sql_on: ${jobs.job_id} = ${run_log.job_id}    
+          sql_on: ${jobs.job_id} = ${run_log.job_id}
+        - join: orgs
+          sql_on: ${orgs._id} = ${run_log.organisationid}    
     description: "details about each run"
     columns:
       - name: jobname
@@ -115,6 +119,10 @@ models:
         description: "ID of the organisationid associated with the job execution. Note that multiple users can be a members of one organisation."
 
   - name: sources
+    meta:
+      joins:
+        - join: orgs
+          sql_on: ${orgs._id} = ${sources.organisationid}   
     description: "details about each source"
     columns:
       - name: source_id
@@ -135,6 +143,10 @@ models:
         description: "The release status of the source. This is important because jobs will only run if the target, source and job are ALL published."
 
   - name: targets
+    meta:
+      joins:
+        - join: orgs
+          sql_on: ${orgs._id} = ${targets.organisationid}  
     description: "details about each target"
     columns:
       - name: target_id
@@ -213,7 +225,7 @@ models:
       joins:
         - join: users
           sql_on: ${users._id} = ${users_login_history.userId}
-    description: "details about each user"
+    description: "details about each user login"
     columns:
       - name: _id
         meta:
@@ -227,3 +239,74 @@ models:
         description: "date of the login event"
       - name: gravity_id
       - name: gravity_inserted
+
+  - name: orgs
+    meta:
+      joins:
+        - join: stripe
+          sql_on: ${users._id} = ${stripe.organisation_id}
+    description: "details about each org"
+    columns:
+      - name: _id
+        meta:
+          metrics:
+            count_orgs:
+              type: count
+            count_distinct_orgs:
+              type: count_distinct
+        description: "id of the org, primary key"
+      - name: dateCreated
+        description: "date org was created"
+      - name: location
+        description: "org location"
+      - name: isDisabled
+      - name: startDayOfWeek
+      - name: accountStripeDetails
+      - name: usingExternalIdp
+      - name: useFiscalYear
+      - name: ignorePerformanceLogging
+      - name: name
+        description: "name of the org"
+      - name: showWeekEndDate
+      - name: dateFormat
+      - name: isPasswordPolicyApplied
+      - name: useStartDayOfWeek
+      - name: embeddingEnabled
+      - name: sunWeek
+      - name: version
+      - name: stripeCustomerId
+      - name: gravity_id
+      - name: gravity_inserted
+      - name: gravity_updated
+
+  - name: stripe
+    description: "details of each strip entry"
+    columns:
+      - name: _id
+        description: "id of the stripe entry, primary key"
+      - name: monthlyAlottedDatasetRuns
+      - name: organisationid
+      - name: currentDatasetRunCount
+      - name: monthlyDatasetRunCount
+      - name: totalDatasetRunCount
+      - name: userDatasetRunLimit
+      - name: accountOwner
+      - name: customerId
+        description: "stripe customer id"
+      - name: allowed
+      - name: version
+      - name: special
+      - name: trialEndNotificationSent
+      - name: trialing
+      - name: currentPeriodEnd
+      - name: currentPeriodStart
+      - name: lastPriceId
+      - name: lastProductId
+      - name: subscriptionId
+      - name: subscriptionStartDate
+      - name: subscriptionStatus
+      - name: subscriptionInterval
+      - name: endedAt
+      - name: gravity_id
+      - name: gravity_inserted
+      - name: gravity_updated

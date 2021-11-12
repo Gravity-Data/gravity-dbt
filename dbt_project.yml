@@ -45,3 +45,9 @@ models:
     targets:
       +tags: targets
       +schema: targets
+    users:
+      +tags: users
+      +schema: users
+    orgs:
+      +tags: orgs
+      +schema: orgs

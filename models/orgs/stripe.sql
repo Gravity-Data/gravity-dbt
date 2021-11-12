@@ -1,0 +1,30 @@
+{{ config(materialized='view') }}
+
+select
+    _id,
+    monthlyAlottedDatasetRuns,
+    organisation as organisationid,
+    currentDatasetRunCount,
+    monthlyDatasetRunCount,
+    totalDatasetRunCount,
+    userDatasetRunLimit,
+    accountOwner,
+    customerId,
+    allowed,
+    version,
+    special,
+    trialEndNotificationSent,
+    trialing,
+    currentPeriodEnd,
+    currentPeriodStart,
+    lastPriceId,
+    lastProductId,
+    subscriptionId,
+    subscriptionStartDate,
+    subscriptionStatus,
+    subscriptionInterval,
+    endedAt,
+    gravity_id,
+    gravity_inserted,
+    gravity_updated
+from {{ source('raw', 'MongoStripe') }}
