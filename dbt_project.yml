@@ -34,20 +34,32 @@ clean-targets:         # directories to be removed by `dbt clean`
 models:
   gravity:
     runs:
-      +tags: runs
+      +tags:
+        - "runs"
+        - "lightdash"
       +schema: runs
     jobs:
-      +tags: jobs
+      +tags:
+        - "jobs"
+        - "lightdash"
       +schema: jobs
     sources:
-      +tags: sources
+      +tags:
+        - "sources"
+        - "lightdash"
       +schema: sources
     targets:
-      +tags: targets
+      +tags:
+        - "targets"
+        - "lightdash"
       +schema: targets
     users:
-      +tags: users
+      +tags:
+        - "users"
+        - "lightdash"
       +schema: users
     orgs:
-      +tags: orgs
+      +tags:
+        - "orgs"
+        - "lightdash"
       +schema: orgs
