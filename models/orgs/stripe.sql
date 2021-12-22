@@ -20,7 +20,7 @@ select
     lastPriceId,
     lastProductId,
     subscriptionId,
-    subscriptionStartDate,
+    timestamp_seconds(subscriptionStartDate) as subscriptionStartDate,
     subscriptionStatus,
     subscriptionInterval,
     endedAt,
