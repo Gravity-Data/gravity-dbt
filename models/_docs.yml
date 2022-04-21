@@ -136,11 +136,11 @@ models:
       - name: size_bytes
         meta:
           metrics:
-            avg_duration:
-              description: "average duration of jobs executed in seconds"
+            avg_size:
+              description: "average size of data moved in runs"
               type: average
-            total_duration:
-              description: "total duration of jobs executed in seconds"
+            total_size:
+              description: "total size of data moved in runs"
               type: sum
         description: "amount of data moved in the run"
 
