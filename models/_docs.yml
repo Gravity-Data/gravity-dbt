@@ -112,11 +112,37 @@ models:
       - name: staged_records_count
         description: "Count of records loaded to the target staging table (staging table is an empty copy of the target table). "
       - name: new_records_count
+        meta:
+          metrics:
+            new_avg_record_count:
+              description: "average new record count of jobs"
+              type: average
+            new_total_record_count:
+              description: "total new record count of jobs"
+              type: sum
         description: "Count of new records loaded to the target table. Records are considered 'new' if they do not already exist in the target table based on the composite key provided."
       - name: updated_records_count
+        meta:
+          metrics:
+            updated_avg_record_count:
+              description: "average updated record count of jobs"
+              type: average
+            updated_total_record_count:
+              description: "total updated record count of jobs"
+              type: sum
         description:  "Count of updated records loaded to the target table. Records are considered 'updated' if they already exist in the target table based on the composite key provided. These records are updated with the lastest values. Only applicable for data warehouse targets."
       - name: organisationid
         description: "ID of the organisationid associated with the job execution. Note that multiple users can be a members of one organisation."
+      - name: size_bytes
+        meta:
+          metrics:
+            avg_duration:
+              description: "average duration of jobs executed in seconds"
+              type: average
+            total_duration:
+              description: "total duration of jobs executed in seconds"
+              type: sum
+        description: "amount of data moved in the run"
 
   - name: sources
     meta:

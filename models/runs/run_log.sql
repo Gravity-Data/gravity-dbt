@@ -15,5 +15,6 @@ select
       staged_records_count,
       new_records_count,
       updated_records_count,
-      organisationid
-from {{ source('raw', 'DE_Scheduler_Run_Log') }}
+      organisationid,
+      size_bytes
+from {{ source('raw', 'scheduler_run_log') }}
