@@ -88,8 +88,20 @@ models:
               type: count
         description: "unique id for the run. Each job will have separate run id associated with each execution."
       - name: job_id      
+        meta:
+          metrics:
+            count_distinct_jobs:
+              type: count_distinct
+            count_jobs:
+              type: count
         description: "fkey from jobs, surrogate key created there"
       - name: source_id
+        meta:
+          metrics:
+            count_distinct_sources:
+              type: count_distinct
+            count_sources:
+              type: count
         description: "fkey from sources, surrogate key created there"
       - name: start_datetime
         description: "start time of the job execution in UTC."
