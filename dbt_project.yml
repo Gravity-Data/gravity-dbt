@@ -63,3 +63,5 @@ models:
         - "orgs"
         - "lightdash"
       +schema: orgs
+    snapshots:
+      +schema: snapshots
